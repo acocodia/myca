@@ -1,0 +1,66 @@
+---
+- name: Setup Web Server
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install Docker
+      apt:
+        name:
+          - docker.io
+          - docker-compose
+        state: present
+
+    - name: Start Docker
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Add ubuntu user to docker group
+      user:
+        name: ubuntu
+        groups: docker
+        append: yes
+
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Configure Nginx
+      copy:
+        content: |
+          server {
+              listen 80;
+              server_name _;
+              
+              location / {
+                  proxy_pass http://localhost:8080;
+                  proxy_set_header Host $host;
+                  proxy_set_header X-Real-IP $remote_addr;
+                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              }
+          }
+        dest: /etc/nginx/sites-available/default
+
+    - name: Start Nginx
+      service:
+        name: nginx
+        state: restarted
+        enabled: yes
+
+    - name: Copy webpage files
+      copy:
+        src: webpage/
+        dest: /home/ubuntu/webpage/
+        owner: ubuntu
+        group: ubuntu
+
+    - name: Run Docker Compose
+      shell: cd /home/ubuntu/webpage && docker-compose up -d --build
+      become_user: ubuntu
+
