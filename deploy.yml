@@ -2,17 +2,18 @@
 - name: Setup Web Server
   hosts: all
   become: yes
+  gather_facts: no
+  vars:
+    ansible_python_interpreter: /usr/bin/python3.8
   tasks:
-    - name: Update apt cache
-      apt:
-        update_cache: yes
-
+    - name: Install Python 3.8 (Amazon Linux 2)
+      raw: amazon-linux-extras install -y python3.8 || true
+      
+    - name: Gather facts
+      setup:
+      
     - name: Install Docker
-      apt:
-        name:
-          - docker.io
-          - docker-compose
-        state: present
+      shell: yum install -y docker
 
     - name: Start Docker
       service:
@@ -20,16 +21,19 @@
         state: started
         enabled: yes
 
-    - name: Add ubuntu user to docker group
+    - name: Install Docker Compose binary
+      shell: |
+        curl -L "https://github.com/docker/compose/releases/download/v2.20.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        chmod +x /usr/local/bin/docker-compose
+
+    - name: Add ec2-user to docker group
       user:
-        name: ubuntu
+        name: ec2-user
         groups: docker
         append: yes
 
     - name: Install Nginx
-      apt:
-        name: nginx
-        state: present
+      shell: amazon-linux-extras install -y nginx1
 
     - name: Configure Nginx
       copy:
@@ -45,7 +49,7 @@
                   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
               }
           }
-        dest: /etc/nginx/sites-available/default
+        dest: /etc/nginx/conf.d/default.conf
 
     - name: Start Nginx
       service:
@@ -56,11 +60,10 @@
     - name: Copy webpage files
       copy:
         src: webpage/
-        dest: /home/ubuntu/webpage/
-        owner: ubuntu
-        group: ubuntu
+        dest: /home/ec2-user/webpage/
+        owner: ec2-user
+        group: ec2-user
 
     - name: Run Docker Compose
-      shell: cd /home/ubuntu/webpage && docker-compose up -d --build
-      become_user: ubuntu
+      shell: cd /home/ec2-user/webpage && sg docker -c "/usr/local/bin/docker-compose up -d --build"
 
