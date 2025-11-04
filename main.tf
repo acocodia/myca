@@ -30,8 +30,14 @@ resource "aws_security_group" "alexander_security_group" {
         cidr_blocks = ["0.0.0.0/0"]//allow all outgoing traffic
     } 
 }
+
+variable "key_name" {
+    type = string
+    default = "alexander_key"
+  
+}
 resource "aws_key_pair" "alexander_key" {
-    key_name = "alexander_key"
+    key_name = var.key_name
     public_key = file("alexander.pub")
   
 }
