@@ -1,64 +1,211 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Queen's Gambit</title>
-    <style>
-        body {
-            font-family: 'Georgia', serif; /* A classic, elegant font */
-            background-color: #f0d9b5; /* Light square color for a chess board feel */
-            color: #3d3b38; /* Dark, text color */
-            margin: 0;
-            padding: 20px;
-            text-align: center;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: #ffffff; /* White background for the main content area */
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        h1 {
-            color: #3d3b38;
-            border-bottom: 2px solid #a47449; /* Dark border for separation */
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-        .chess-image {
-            width: 100%;
-            max-width: 600px;
-            height: auto;
-            border: 5px solid #769656; /* Green/dark square color border */
-            border-radius: 5px;
-            margin-bottom: 30px;
-        }
-        .note {
-            margin-top: 30px;
-            font-size: 1.2em;
-            color: #a47449; /* A slightly warmer color for the quote */
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Arsenal Fan Page</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Kanit:wght@600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --ars-red:#EF0107;
+      --ars-dark:#1A2B36;
+      --white:#ffffff;
+      --muted:#f4f4f4;
+      --overlay:rgba(0,0,0,0.55);
+      --container:1100px;
+    }
+    *{box-sizing:border-box}
+    body{
+      font-family:Roboto,system-ui,-apple-system,Segoe UI,Arial; 
+      margin:0; color:var(--white);
+      background:var(--ars-dark);
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+    .bg-parallax{
+      position:fixed;
+      top:0;left:0;right:0;bottom:0;
+      background:url('Henry 02.jpg') center center/cover no-repeat;
+      transform:translateZ(0);
+      will-change:transform;
+      z-index:-2;
+    }
+    .overlay{
+      position:fixed;
+      top:0;left:0;right:0;bottom:0;
+      background:var(--overlay);
+      z-index:-1;
+    }
+
+    header,main,footer{position:relative;z-index:1;}
+    header{background:var(--ars-red); color:var(--white); padding:28px 16px; opacity:0.95}
+    .wrap{max-width:var(--container); margin:0 auto}
+    .brand{display:flex;align-items:center;gap:14px}
+    .crest{width:64px;height:64px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:Kanit,Roboto;font-weight:700;color:var(--ars-red)}
+    nav{margin-left:auto}
+    nav a{color:var(--white); text-decoration:none; margin-left:18px; font-weight:600}
+
+    .hero{padding:60px 16px; display:grid; grid-template-columns:1fr 360px; gap:28px; align-items:center}
+    .hero h1{margin:0;font-family:Kanit,Roboto;font-size:36px;color:var(--white)}
+    .hero p{margin-top:8px; color:var(--white); opacity:0.95}
+    .card{background:rgba(255,255,255,0.1); backdrop-filter:blur(8px); padding:18px; border-radius:12px; box-shadow:0 6px 24px rgba(0,0,0,0.4)}
+
+    .news-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px}
+    .news-item h3{margin:6px 0 0;color:var(--white)}
+    .fixture{display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px dashed rgba(255,255,255,0.2)}
+
+    footer{margin-top:40px; padding:18px 16px; text-align:center; color:#ddd}
+
+    @media (max-width:880px){
+      .hero{grid-template-columns:1fr}
+      nav{margin-top:12px}
+      .crest{width:56px;height:56px}
+    }
+
+    .muted{color:#ddd}
+    .btn{display:inline-block;padding:10px 14px;border-radius:8px;text-decoration:none;font-weight:700}
+    .btn-primary{background:var(--ars-red);color:var(--white)}
+  </style>
 </head>
 <body>
+  <div class="bg-parallax" id="bg"></div>
+  <div class="overlay"></div>
 
-    <div class="container">
-        <h1>👑 She had me cornered</h1>
-
-        <p>But it's never over till it's over</p>
-
-        <img 
-            src="https://myrevva-production-media.s3.us-west-1.amazonaws.com/463-IMG_0209.PNG" 
-            alt="The starting position of the Queen's Gambit chess opening" 
-            class="chess-image"
-        >
-
-        <p class="note">
-            <em>'The Queen always gets her revenge 🙃' </em>
-        </p>
+  <header>
+    <div class="wrap" style="display:flex;align-items:center">
+      <div class="brand">
+        <div class="crest">AFC</div>
+        <div>
+          <div style="font-weight:700">Arsenal Fan Page</div>
+          <div style="font-size:13px; opacity:0.9">For fans, by fans</div>
+        </div>
+      </div>
+      <nav>
+        <a href="#news">News</a>
+        <a href="#history">History</a>
+        <a href="#legends">Legends</a>
+        <a href="#fixtures">Fixtures</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#contact">Contact</a>
+      </nav>
     </div>
+  </header>
 
+  <main class="wrap">
+    <section class="hero">
+      <div>
+        <h1>Come on you Gunners! 🔴</h1>
+        <p>A place for every Arsenal supporter to celebrate our glorious past and bright future. Relive legendary goals, explore our history, and stay updated on the latest fixtures.</p>
+
+        <div style="margin-top:18px">
+          <a class="btn btn-primary" href="#fixtures">See Fixtures</a>
+          <a class="btn" style="margin-left:10px; background:#fff; color:#000">Join the forum</a>
+        </div>
+      </div>
+
+      <aside>
+        <div class="card">
+          <h3 style="margin:0">Club quick facts</h3>
+          <p class="muted" style="margin-top:8px">Founded: 1886<br>Stadium: Emirates Stadium<br>Colours: Red & White</p>
+          <hr style="border:none;border-top:1px dashed rgba(255,255,255,0.3);margin:12px 0">
+          <div>
+            <strong>Top scorers</strong>
+            <ul style="padding-left:18px;margin:8px 0 0" class="muted">
+              <li>Thierry Henry – 228 goals</li>
+              <li>Ian Wright – 185 goals</li>
+              <li>Robin van Persie – 132 goals</li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section id="history" style="margin-top:26px">
+      <h2>Club History</h2>
+      <div class="card" style="margin-top:12px">
+        <p>Arsenal Football Club was founded in 1886 as Dial Square by a group of munitions workers in Woolwich. The club moved to Highbury in North London in 1913, and later to the Emirates Stadium in 2006. Arsenal are renowned for their attacking football, rich tradition, and long-standing rivalry with Tottenham Hotspur.</p>
+        <p>Under Arsène Wenger, Arsenal achieved the iconic <strong>Invincibles</strong> season in 2003–04, going unbeaten in the Premier League — a feat that remains unmatched in modern English football.</p>
+      </div>
+    </section>
+
+    <section id="legends" style="margin-top:26px">
+      <h2>Club Legends</h2>
+      <div class="news-grid" style="margin-top:12px">
+        <div class="card">
+          <h3>Thierry Henry</h3>
+          <p class="muted">The all-time top scorer and an icon of the Invincibles era. His flair, speed, and leadership defined a generation of Arsenal football.</p>
+        </div>
+        <div class="card">
+          <h3>Dennis Bergkamp</h3>
+          <p class="muted">Known for his vision and technical brilliance, Bergkamp transformed Arsenal’s attacking play in the late 1990s and early 2000s.</p>
+        </div>
+        <div class="card">
+          <h3>Patrick Vieira</h3>
+          <p class="muted">A commanding captain who led by example, Vieira was the heartbeat of Arsenal’s midfield during its golden years.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="news" style="margin-top:26px">
+      <h2>Latest News</h2>
+      <div class="news-grid">
+        <article class="card news-item">
+          <h3>Matchday Preview</h3>
+          <p class="muted">Predicted line-up, key battles, and tactical analysis ahead of the weekend clash.</p>
+        </article>
+        <article class="card news-item">
+          <h3>Fan Event Recap</h3>
+          <p class="muted">Supporters from across the globe united for a memorable Emirates fan day.</p>
+        </article>
+        <article class="card news-item">
+          <h3>Player of the Month</h3>
+          <p class="muted">Celebrating the standout performers from the latest fixtures.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="fixtures" style="margin-top:26px">
+      <h2>Upcoming Fixtures</h2>
+      <div class="card" style="margin-top:12px">
+        <div class="fixture"><div>Arsenal vs. Chelsea</div><div>Sun 12 Oct — 15:00</div></div>
+        <div class="fixture"><div>Manchester United vs. Arsenal</div><div>Sat 18 Oct — 18:30</div></div>
+        <div class="fixture"><div>Arsenal vs. Spurs</div><div>Wed 22 Oct — 20:00</div></div>
+      </div>
+    </section>
+
+    <section id="gallery" style="margin-top:26px">
+      <h2>Gallery</h2>
+      <div class="news-grid" style="margin-top:12px">
+        <div class="card" style="min-height:140px; display:flex; align-items:center; justify-content:center">Add your fan photo</div>
+        <div class="card" style="min-height:140px; display:flex; align-items:center; justify-content:center">Stadium moment</div>
+        <div class="card" style="min-height:140px; display:flex; align-items:center; justify-content:center">Goal celebration</div>
+      </div>
+    </section>
+
+    <section id="contact" style="margin-top:28px">
+      <h2>Contact / Get in Touch</h2>
+      <div class="card" style="margin-top:12px">
+        <form onsubmit="event.preventDefault(); alert('Thanks — this is a demo form. Replace with backend.');">
+          <label style="display:block;margin-bottom:8px">Your name<br><input required style="width:100%;padding:10px;margin-top:6px;border-radius:8px;border:1px solid #ccc"></label>
+          <label style="display:block;margin-bottom:8px">Message<br><textarea required style="width:100%;padding:10px;margin-top:6px;border-radius:8px;border:1px solid #ccc; min-height:100px"></textarea></label>
+          <button class="btn btn-primary" type="submit">Send message</button>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      <p>For Arsenal fans COYG!🔴</p>
+    </footer>
+  </main>
+
+  <script>
+    // Parallax effect on scroll
+    window.addEventListener('scroll', () => {
+      const scroll = window.scrollY;
+      document.getElementById('bg').style.transform = `translateY(${scroll * 0.4}px)`;
+    });
+  </script>
 </body>
 </html>
